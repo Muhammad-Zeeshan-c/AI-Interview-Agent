@@ -1,0 +1,40 @@
+# Logs (Both directories)
+frontend/logs/
+backend/logs/
+frontend/*.log
+backend/*.log
+frontend/npm-debug.log*
+backend/npm-debug.log*
+frontend/yarn-debug.log*
+backend/yarn-debug.log*
+frontend/yarn-error.log*
+backend/yarn-error.log*
+frontend/pnpm-debug.log*
+backend/pnpm-debug.log*
+frontend/lerna-debug.log*
+backend/lerna-debug.log*
+
+# Dependencies and Builds (Both directories)
+frontend/node_modules/
+backend/node_modules/
+frontend/dist/
+backend/dist/
+frontend/dist-ssr/
+backend/dist-ssr/
+
+# Environment Variables / Local Secrets
+frontend/*.local
+backend/*.local
+.env
+*.env.local
+
+# Editor directories and files (Root level covers everything)
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
