@@ -4,6 +4,6 @@ const {googleAuthController}=require('../controller/authController')
 const {logout}=require('../controller/authController')
 
 authRouter.post('/google',googleAuthController)
-authRouter.get('/',logout)
+authRouter.get('/logout',logout)
 
 module.exports=authRouter

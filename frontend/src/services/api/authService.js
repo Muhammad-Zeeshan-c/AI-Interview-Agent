@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import {setUserData} from '../../redux/userSlice/userSlice.js';
 
 
 const api = axios.create({
@@ -25,12 +25,24 @@ export const authService = {
     getCurrentUser: async (dispatch) => {
         try {
             const response = await api.get('/user/currentuser');
-            console.log("Dispatching setUser with:", response.data);
-            dispatch(setUser(response.data));
+            console.log("Dispatching setUserData with:", response.data);
+            dispatch(setUserData(response.data));
             return response.data;
         } catch (error) {
-            dispatch(setUser(null));
+            dispatch(setUserData(null));
             console.error("Get Current User Request Failed:", error);
+            throw error.response?.data || error.message;
+        }
+    },
+
+    logout:async(dispatch)=>{
+        try{
+            const response=await api.get('/auth/logout');
+            dispatch(setUserData(null));
+            return response;
+        }
+        catch(error){
+            console.error("Logout Request Failed:", error);
             throw error.response?.data || error.message;
         }
     }
