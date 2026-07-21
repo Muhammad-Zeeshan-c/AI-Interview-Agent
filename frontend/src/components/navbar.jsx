@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import {authService} from "../services/api/authService.js";
-import { useDispatch } from "react-redux";
+import { authService } from "../services/api/authService.js";
 import AuthComponent from "./AuthComponent.jsx";
 
 //React icons
@@ -16,116 +15,173 @@ function Navbar() {
   const { userData } = useSelector((state) => state.user);
   const [showCreditsPopup, setShowCreditsPopup] = useState(false);
   const [showProfilePopup, setShowProfilePopup] = useState(false);
-  const [showAuth,setShowAuth]=useState(false)
+  const [showAuth, setShowAuth] = useState(false);
 
   const navigate = useNavigate();
 
-  const handleLogout = async () => {
-    try{
-        await authService.logout(dispatch);
-        setShowProfilePopup(false);
-        setShowCreditsPopup(false);
-        navigate("/auth");
+  const popupVariants = {
+    hidden: { opacity: 0, y: -8, scale: 0.98 },
+    visible: { opacity: 1, y: 0, scale: 1 },
+    exit: { opacity: 0, y: -8, scale: 0.98 },
+  };
 
+  const handleLogout = async () => {
+    try {
+      await authService.logout(dispatch);
+      setShowProfilePopup(false);
+      setShowCreditsPopup(false);
+      navigate("/auth");
     }
-    catch(error){
-        console.error("Logout failed:", error);
+    catch (error) {
+      console.error("Logout failed:", error);
     }
   }
   return (
-    <div className="w-full bg-[#f3f3f3] flex justify-center px-6 pt-4">
+    <div className="w-full bg-[linear-gradient(180deg,#f7f8fc_0%,#f3f4f8_100%)] flex justify-center px-4 sm:px-6 pt-4">
       <motion.div
-        intial={{ opacity: 0, y: -50 }}
+        initial={{ opacity: 0, y: -16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="w-full max-w-6xl bg-white rounded-lg shadow-sm border border-gray-200 px-8 py-4 flex justify-between items-center relative"
+        transition={{ duration: 0.45, ease: "easeOut" }}
+        className="w-full max-w-6xl rounded-2xl border border-white/70 bg-white/85 px-4 py-3 shadow-[0_18px_50px_rgba(15,23,42,0.08)] backdrop-blur-md sm:px-6 lg:px-8"
       >
-        {/*Logo */}
-        <div className="flex items-center gap-3 cursor-pointer">
-          <div className="bg-black text-white p-2 rounded-lg">
-            <BsRobot size={20} />
-          </div>
-          <h1 className="font-semibold hidden md:block text-lg">Ace.AI</h1>
-        </div>
-
-        {/*Credits */}
-
-        <div className="flex items-center gap-4">
-          <div className="relative">
-            <button
-              onClick={() => {
-                if(!userData){
-                    setShowAuth(true)
-                    return;
-                }
-                setShowCreditsPopup(!showCreditsPopup);
-                setShowProfilePopup(false);
-              }}
-              className="flex items-center bg-gray-100 px-4 py-2 rounded-full text-md hover:bg-gray-200 transition-colors duration-200 cursor-pointer"
-            >
-              <BsCoin size={20} />
-              {userData && (
-                <span className="ml-2">{userData.credits || 0}</span>
-              )}
-            </button>
-
-            {/*User credits Popup*/}
-            {showCreditsPopup && (
-              <div className="absolute right-12 mt-2 w-64 bg-white border border-white rounded-xl shadow-lg p-5 z-10 flex flex-col">
-                <p className="text-center">Need more credits to continue?</p>
-                <button className="mt-2 w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors duration-200">
-                  Buy Credits
-                </button>
-              </div>
-            )}
+        <div className="flex items-center justify-between gap-4">
+          {/*Logo */}
+          <div
+            className="flex items-center gap-3 cursor-pointer select-none"
+            onClick={() => navigate("/")}
+          >
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-slate-950 via-slate-800 to-slate-700 text-white shadow-lg shadow-slate-900/20">
+              <BsRobot size={20} />
+            </div>
+            <div className="hidden md:block">
+              <h1 className="text-lg font-semibold tracking-tight text-slate-950">
+                Ace.AI
+              </h1>
+              <p className="text-xs text-slate-500">
+                Interview practice, refined
+              </p>
+            </div>
           </div>
 
-          <div className="relative">
-            <button
-              onClick={() => {
-                if(!userData){
-                    setShowAuth(true)
+          {/*Credits */}
+
+          <div className="flex items-center gap-3 sm:gap-4">
+            <div className="relative">
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => {
+                  if (!userData) {
+                    setShowAuth(true);
                     return;
-                }
-                setShowProfilePopup(!showProfilePopup);
-                setShowCreditsPopup(false);
-              }}
-              className="w-9 h-9 bg-black hover:bg-gray-800 text-white rounded-full flex items-center justify-center font-semibold cursor-pointer"
-            >
-              {userData ? (
-                userData?.name.slice(0, 1).toUpperCase()
-              ) : (
-                <FaUserAstronaut size={20} />
+                  }
+                  setShowCreditsPopup(!showCreditsPopup);
+                  setShowProfilePopup(false);
+                }}
+                className="flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3.5 py-2 text-sm font-medium text-slate-700 shadow-sm transition-colors duration-200 hover:border-slate-300 hover:bg-white sm:px-4"
+              >
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-amber-100 to-amber-200 text-amber-700">
+                  <BsCoin size={18} />
+                </span>
+                <span className="hidden sm:inline">Credits</span>
+                {userData && (
+                  <span className="rounded-full bg-slate-900 px-2.5 py-1 text-xs font-semibold text-white">
+                    {userData.credits || 0}
+                  </span>
+                )}
+              </motion.button>
+
+              {/*User credits Popup*/}
+              {showCreditsPopup && (
+                <motion.div
+                  variants={popupVariants}
+                  initial="hidden"
+                  animate="visible"
+                  exit="exit"
+                  transition={{ duration: 0.2, ease: "easeOut" }}
+                  className="absolute right-0 mt-3 w-72 rounded-2xl border border-slate-100 bg-white p-5 shadow-2xl shadow-slate-900/10"
+                >
+                  <div className="mb-4 rounded-2xl bg-gradient-to-r from-slate-950 to-slate-700 px-4 py-3 text-white">
+                    <p className="text-xs uppercase tracking-[0.22em] text-slate-300">
+                      Credits
+                    </p>
+                    <p className="mt-1 text-sm text-slate-100">
+                      Keep practicing without interruptions.
+                    </p>
+                  </div>
+                  <p className="text-sm leading-6 text-slate-600">
+                    Need more credits to continue your interview sessions?
+                  </p>
+                  <motion.button
+                    whileHover={{ y: -1 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="mt-4 w-full rounded-xl bg-slate-950 px-4 py-2.5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-slate-800"
+                  >
+                    Buy Credits
+                  </motion.button>
+                </motion.div>
               )}
-            </button>
+            </div>
 
-            {/*User profile Popup*/}
-            {showProfilePopup && (
-              <div className="absolute right-0 top-full mt-3 w-64 bg-white border border-gray-100 rounded-2xl shadow-2xl p-4 z-50 flex flex-col gap-1">
-                {/* User Details */}
-                <div className="pb-3 mb-2 border-b border-gray-100">
-                  <p className="text-gray-900 font-semibold text-sm truncate">
-                    {userData?.name}
-                  </p>
-                  <p className="text-gray-500 text-xs truncate">
-                    {userData?.email}
-                  </p>
-                </div>
+            <div className="relative">
+              <motion.button
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={() => {
+                  if (!userData) {
+                    setShowAuth(true);
+                    return;
+                  }
+                  setShowProfilePopup(!showProfilePopup);
+                  setShowCreditsPopup(false);
+                }}
+                className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-slate-950 via-slate-800 to-slate-700 text-sm font-semibold text-white shadow-lg shadow-slate-900/20 ring-1 ring-slate-950/5"
+              >
+                {userData ? (
+                  userData?.name.slice(0, 1).toUpperCase()
+                ) : (
+                  <FaUserAstronaut size={18} />
+                )}
+              </motion.button>
 
-                {/* History Button */}
-                <button className="w-full text-left text-sm py-2 px-3 text-gray-700 hover:bg-gray-50 hover:text-gray-900 rounded-lg transition-colors duration-150 font-medium">
-                  History
-                </button>
+              {/*User profile Popup*/}
+              {showProfilePopup && (
+                <motion.div
+                  variants={popupVariants}
+                  initial="hidden"
+                  animate="visible"
+                  exit="exit"
+                  transition={{ duration: 0.2, ease: "easeOut" }}
+                  className="absolute right-0 top-full mt-3 w-72 rounded-2xl border border-slate-100 bg-white p-4 shadow-2xl shadow-slate-900/10 z-50 flex flex-col gap-1"
+                >
+                  {/* User Details */}
+                  <div className="mb-2 rounded-2xl bg-gradient-to-r from-slate-950 to-slate-700 p-4 text-white">
+                    <p className="truncate text-sm font-semibold">
+                      {userData?.name}
+                    </p>
+                    <p className="truncate text-xs text-slate-300">
+                      {userData?.email}
+                    </p>
+                  </div>
 
-                {/* Logout Button */}
-                <button 
-                onClick={() => handleLogout()}
-                className="w-full mt-1 text-sm py-2 px-3 bg-red-600 flex flex-row items-center justify-center gap-2 text-white font-medium rounded-lg hover:bg-red-700 active:scale-[0.98] transition-all duration-150 shadow-sm">
-                  <HiOutlineLogout size={18} />
-                  Logout
-                </button>
-              </div>
-            )}
+                  {/* History Button */}
+                  <button className="w-full rounded-xl px-3 py-2 text-left text-sm font-medium text-slate-700 transition-colors duration-150 hover:bg-slate-50 hover:text-slate-950">
+                    History
+                  </button>
+
+                  {/* Logout Button */}
+                  <motion.button 
+                    whileHover={{ y: -1 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => handleLogout()}
+                    className="mt-1 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-red-600 to-red-500 px-3 py-2.5 text-sm font-semibold text-white shadow-lg shadow-red-600/20 transition-all duration-150 hover:from-red-700 hover:to-red-600"
+                  >
+                    <HiOutlineLogout size={18} />
+                    Logout
+                  </motion.button>
+                </motion.div>
+              )}
+            </div>
           </div>
         </div>
       </motion.div>
