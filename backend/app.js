@@ -1,11 +1,14 @@
 const express=require('express')
 const dotenv=require('dotenv')
 const connectMongoose=require('./config/connectDatabase')
-const authRouter=require('./Routes/authRoute')
-const userRouter=require('./Routes/userRoute')
+
 const cookieParser=require('cookie-parser')
 const cors=require('cors')
 
+//Routes
+const authRouter=require('./Routes/authRoute')
+const userRouter=require('./Routes/userRoute')
+const interViewRouter=require('./Routes/interviewRoute')
 
 //Middle Wares
 const app=express()
@@ -26,6 +29,8 @@ const url=process.env.DB_URL
 
 app.use('/api/auth',authRouter)
 app.use('/api/user',userRouter)
+app.use('/api/interview',interViewRouter)
+
 
 app.listen(port,async ()=>{
     console.log(`App is working ${port}`)

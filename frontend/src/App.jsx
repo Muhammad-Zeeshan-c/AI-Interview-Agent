@@ -1,10 +1,14 @@
 import './App.css'
 import { useEffect } from 'react'
-import Home from './pages/Home'
 import {BrowserRouter,Route,Routes} from 'react-router-dom'
-import Auth from './pages/Auth'
 import {authService} from './services/api/authService'
 import {useSelector,useDispatch} from 'react-redux'
+
+//pages
+import Auth from './pages/Auth'
+import Home from './pages/Home'
+import Interview from './pages/interviewPage'
+
 
 function App() {
   const dispatch=useDispatch()
@@ -20,6 +24,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Home/>}/>
         <Route path='/auth' element={<Auth/>}/>
+        <Route path='/interview' element={<Interview/>}/>
       </Routes>
     </BrowserRouter>
     </>

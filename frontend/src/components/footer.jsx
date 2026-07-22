@@ -11,10 +11,10 @@ function Footer() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.25 }}
         transition={{ duration: 0.45, ease: 'easeOut' }}
-        className='w-full max-w-6xl overflow-hidden rounded-[2rem] border border-white/70 bg-white/80 px-5 py-8 text-center shadow-[0_18px_50px_rgba(15,23,42,0.08)] backdrop-blur-md sm:px-8'
+        className='w-full max-w-6xl overflow-hidden rounded-4xl border border-white/70 bg-white/80 px-5 py-8 text-center shadow-[0_18px_50px_rgba(15,23,42,0.08)] backdrop-blur-md sm:px-8'
       >
         <div className='mx-auto mb-4 flex w-fit items-center gap-3 rounded-full border border-slate-200 bg-slate-50 px-4 py-2'>
-          <div className='flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-slate-950 via-slate-800 to-slate-700 text-white shadow-lg shadow-slate-900/20'>
+          <div className='flex h-10 w-10 items-center justify-center rounded-full bg-linear-to-br from-slate-950 via-slate-800 to-slate-700 text-white shadow-lg shadow-slate-900/20'>
             <BsRobot size={16}/>
           </div>
           <h2 className='text-base font-semibold tracking-tight text-slate-950'>Ace.AI</h2>
