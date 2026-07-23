@@ -25,7 +25,20 @@ const interviewService = {
             console.error("Error analyzing resume:", error);
             throw error.response?.data || error.message;
         }
+    },
+
+    generateInterviewQuestions: async (formData) => {
+        try {
+            const { role, experience, mode, projects, skills, resumeText } = formData;
+            const result=await api.post('/interview/generate-questions',{ role, experience, mode, projects, skills, resumeText })
+            return result.data;
+        }
+        catch (error) {
+            console.error("Error generating interview questions:", error);
+            throw error.response?.data || error.message;
+        }
     }
+
 }
 
 export default interviewService;

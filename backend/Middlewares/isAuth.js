@@ -14,7 +14,7 @@ const isAuth=(req,res,next)=>{
         if(!verifyToken){
             return res.status(400).json({message:'Please Loggin'})
         }
-        
+
         req.userId=verifyToken.userID;
         next();
     }

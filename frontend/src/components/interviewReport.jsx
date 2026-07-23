@@ -1,6 +1,6 @@
     import React from 'react'
     
-    function InterviewReport(){
+    function InterviewReport({report}){
         return(
             <>
             

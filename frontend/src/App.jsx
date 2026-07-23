@@ -14,7 +14,6 @@ function App() {
   const dispatch=useDispatch()
   useEffect(()=>{
     authService.getCurrentUser(dispatch).then((user)=>{
-      console.log("Current User:", user);
     })
   },[dispatch])
   

@@ -25,7 +25,7 @@ export const authService = {
     getCurrentUser: async (dispatch) => {
         try {
             const response = await api.get('/user/currentuser');
-            console.log("Dispatching setUserData with:", response.data);
+
             dispatch(setUserData(response.data));
             return response.data;
         } catch (error) {

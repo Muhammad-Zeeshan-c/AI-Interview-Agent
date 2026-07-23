@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import {useSelector,useDispatch} from 'react-redux';
+import {setUserData} from '../redux/userSlice/userSlice'
+
 import {
   FaUserTie,
   FaBriefcase,
@@ -37,6 +40,8 @@ function InterviewSetup({ onStart }) {
     },
   ];
 
+  const dispatch=useDispatch()
+  const userData=useSelector((state)=>state.user.userData)
   const handleResumeUpload = async (e) => {
     if (!resume || analyzing) {
       console.log('1')
@@ -47,8 +52,6 @@ function InterviewSetup({ onStart }) {
       setAnalyzing(true);
 
       const data = await interviewService.analyzeResume(resume);
-      console.log(data);
-
       setRole(data.role || "");
       setExperience(data.experience || "");
       setSkills(data.skills || []);
@@ -62,6 +65,34 @@ function InterviewSetup({ onStart }) {
       setAnalyzing(false);
     }
   };
+
+  const generateQuestions=async()=>{
+    setLoading(true);
+    try{
+      const formData = {
+        role,
+        experience,
+        mode,
+        projects,
+        skills,
+        resumeText,
+      };
+      const response = await interviewService.generateInterviewQuestions(formData);
+      console.log("Generated Questions:", response);
+      console.log('Response data: ------------------------ \n', response);
+      if(userData){
+        dispatch(setUserData({ ...userData, credits: response.creditsRemaining}));
+      }
+
+      setLoading(false);
+      onStart(response.data);
+    }
+    catch(error){
+      console.error(error)
+      setLoading(false);
+    }
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -183,9 +214,11 @@ function InterviewSetup({ onStart }) {
               disabled={!role || !experience}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.95 }}
+
+              onClick={()=>{generateQuestions()}}
               className="w-full disabled:bg-gray-600 bg-green-600 hover:bg-green-700 text-white py-3 rounded-full text-lg font-semibold transition duration-300 shadow-md"
             >
-              Start Interview
+              {loading ? "Generating Questions..." : "Start Interview"}
             </motion.button>
           </div>
         </motion.div>
