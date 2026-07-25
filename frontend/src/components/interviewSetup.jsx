@@ -85,7 +85,7 @@ function InterviewSetup({ onStart }) {
       }
 
       setLoading(false);
-      onStart(response.data);
+      onStart(response);
     }
     catch(error){
       console.error(error)

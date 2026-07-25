@@ -23,7 +23,7 @@ function Interview() {
         {step === 2 && <InterviewHero interviewData={interviewData} 
         onFinish={(report) => {
             setInterviewData(report);
-            SetStep(3);
+            setStep(3);
         }} />}
 
         {step === 3 && <InterviewReport report={interviewData} />}

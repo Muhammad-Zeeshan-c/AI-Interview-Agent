@@ -37,6 +37,30 @@ const interviewService = {
             console.error("Error generating interview questions:", error);
             throw error.response?.data || error.message;
         }
+    },
+
+    submitAnswer:async(formData)=>{
+        try{
+            const{interviewId,questionIndex,answer,timetaken}=formData;
+            const response =await api.post('/interview/submit-answer',{interviewId,questionIndex,answer,timetaken})
+            return response;
+        }
+        catch(error){
+            console.error("Error submitting answer:", error);
+            throw error.response?.data || error.message;
+        }
+    },
+
+    finishInterview:async(interviewId)=>{
+        try{
+            const response=await api.post('/interview/finish-interview',{interviewId})
+            return response;
+        }
+        catch(error){
+            console.error("Error finishing interview:", error);
+            throw error.response?.data || error.message;
+        }
+
     }
 
 }
