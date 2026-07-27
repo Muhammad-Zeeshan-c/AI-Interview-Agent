@@ -61,6 +61,28 @@ const interviewService = {
             throw error.response?.data || error.message;
         }
 
+    },
+
+    getInterviewDetails: async (interviewId) => {
+        try{
+           const response=await api.get('/interview/details')
+            return response; 
+        }
+        catch(error){
+            console.error("Error fetching interview details:", error);
+            throw error.response?.data || error.message;
+        }
+    },
+
+    getInterviewReport: async(id)=>{
+        try{
+            const response=await api.get(`/interview/report/${id}`)
+            return response;
+        }
+        catch(error){
+            console.error("Error fetching interview report:", error);
+            throw error.response?.data || error.message;
+        }
     }
 
 }

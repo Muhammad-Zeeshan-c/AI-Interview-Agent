@@ -8,6 +8,8 @@ import {useSelector,useDispatch} from 'react-redux'
 import Auth from './pages/Auth'
 import Home from './pages/Home'
 import Interview from './pages/interviewPage'
+import InterviewHistory from './pages/interviewHistory'
+import InterviewReportPage from './pages/interviewReportPage'
 
 
 function App() {
@@ -24,6 +26,8 @@ function App() {
         <Route path='/' element={<Home/>}/>
         <Route path='/auth' element={<Auth/>}/>
         <Route path='/interview' element={<Interview/>}/>
+        <Route path='/history' element={<InterviewHistory/>}/>
+        <Route path='/report/:id' element={<InterviewReportPage/>}/>
       </Routes>
     </BrowserRouter>
     </>
